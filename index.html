@@ -9,7 +9,7 @@
 @property --m { syntax: '<percentage>'; inherits: false; initial-value: 88%; }
 
 :root {
-  --w: min(40vw, 340px, 42vh);
+  --w: min(44vw, 520px, 74vh);
   --h: calc(var(--w) * 1.42);
   --gold: #d4af37;
   --gold-hi: #fbe7a1;
@@ -214,7 +214,7 @@ body {
   pointer-events: none;
 }
 
-/* Image page (left side of each spread) */
+/* Image page */
 .img-page { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .tag {
   position: absolute; top: calc(var(--w) * .09); left: 0; right: 0;
@@ -252,7 +252,7 @@ body {
   letter-spacing: 3px; color: #8a5a2a;
 }
 
-/* Dua page (right side of each spread) */
+/* Dua page */
 .dua-page { display: flex; align-items: center; justify-content: center; }
 .dua-wrap {
   width: 80%;
@@ -283,7 +283,7 @@ body {
 .dua {
   margin: calc(var(--w) * .04) 0 0;
   font-style: italic;
-  font-size: calc(var(--w) * .064);
+  font-size: calc(var(--w) * .07);
   line-height: 1.45;
   color: var(--ink);
 }
@@ -321,11 +321,6 @@ body {
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   text-align: center; padding: 0 12%;
-}
-.end-title {
-  font-family: 'Pinyon Script', cursive;
-  font-size: calc(var(--w) * .15);
-  line-height: 1; margin: 0; color: var(--ink);
 }
 .again {
   margin-top: calc(var(--w) * .07);
@@ -412,16 +407,13 @@ const TOTAL = N + 2;          // 18 leaves
 const CORNERS = '<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>';
 
 /*
-  Leaf layout (each leaf has a front and a back):
+  Leaf layout:
   Leaf 0 : front = cover,  back = endpaper
-  Leaf 1 : front = intro,  back = image 1   (spread after flip: image 1 | dua 1)
-  Leaf 2 : front = dua 1,  back = image 2   (spread after flip: image 2 | dua 2)
+  Leaf 1 : front = intro,  back = image 1      (spread: image 1 | dua 1)
+  Leaf 2 : front = dua 1,  back = image 2      (spread: image 2 | dua 2)
   ...
   Leaf 16: front = dua 15, back = image 16
   Leaf 17: front = dua 16, back = back cover
-
-  So when a leaf is turned, the LEFT page is its back (image) and the
-  RIGHT page is the next leaf's front (dua of the same number).
 */
 function buildLeaves() {
   let html = '';
@@ -446,7 +438,7 @@ function buildLeaves() {
       </div>
     </div>`;
 
-  // Leaf 1: intro page on front, image 1 on back
+  // Leaf 1: intro on front, image 1 on back
   html += `
     <div class="leaf">
       <div class="face front paper">
@@ -463,7 +455,7 @@ function buildLeaves() {
       </div>
     </div>`;
 
-  // Leaves 2..16: dua (front) of previous image + image (back)
+  // Leaves 2..16: dua of previous image on front, image on back
   for (let i = 2; i <= N; i++) {
     html += `
     <div class="leaf">
@@ -485,7 +477,7 @@ function buildLeaves() {
     </div>`;
   }
 
-  // Leaf 17: last dua (front) + back cover (back)
+  // Leaf 17: last dua on front, back cover on back
   html += `
     <div class="leaf">
       <div class="face front paper dua-page">
